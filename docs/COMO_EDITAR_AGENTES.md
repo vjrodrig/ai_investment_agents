@@ -40,7 +40,10 @@ Ej.: en `agents/risk.md`, hazlo más estricto: *"Descarta cualquier acción con
 volatilidad anualizada sobre 30%."* Vuelve a correr y mira cómo cambia la lista.
 
 **Cambiar la temperatura** — sube la del Research a `0.8` y observa si propone
-candidatas más variadas; baja la del Quant a `0.0` para máxima consistencia.
+candidatas más variadas; baja la del Quant a `0.0` para máxima consistencia. ¿No sabes
+qué temperatura poner? Deja que el experimento la busque por ti:
+`python experiments/temperature_search.py` prueba varias combinaciones y recomienda la
+de mayor overlap sin sacrificar creatividad.
 
 **Mezclar modelos** — pon `model: openai/gpt-4o` en un agente y deja el resto en
 Claude. Necesitas la key de cada proveedor que uses en tu `.env`.

@@ -86,13 +86,31 @@ Cuando el criterio está pinneado y los datos son los mismos, la respuesta conve
 Puedes medirlo tú mismo:
 
 ```bash
-python experimentos/consistencia.py --runs 3
+python experiments/consistency.py --runs 3
 ```
 
 Corre el sistema varias veces y reporta cuántas acciones comparten las carteras (de N),
 el **núcleo estable** que se repite siempre, y lo compara con las cifras de la Clase 1
 (prompt suelto: 3.1/10; mismo modelo: 4.3/10). Baja la temperatura de los agentes hacia
 `0` y verás la convergencia acercarse aún más a la repetición exacta.
+
+## ¿Cuál es la mejor temperatura? (consistencia vs creatividad)
+
+Bajar todo a 0 maximiza la repetición, pero el sistema se vuelve un robot que copia el
+ranking de Sharpe y deja de ejercer criterio. Hay un **trade-off** (Recap Clase 1:
+creatividad vs precisión). El experimento de temperatura lo mide y busca el punto justo:
+
+```bash
+python experiments/temperature_search.py --runs 3
+```
+
+Prueba varias **combinaciones de temperaturas** por agente y, para cada una, mide:
+- **Consistencia** = acciones en común entre corridas (overlap).
+- **Creatividad** = cuánto se aparta la cartera del ranking ingenuo "top-N por Sharpe"
+  (más alto = más criterio propio del equipo, no copia mecánica).
+
+Luego recomienda la combinación con **mayor consistencia sin sacrificar creatividad**.
+Si te gusta el resultado, fija esas temperaturas en los archivos de `agents/`.
 
 ---
 

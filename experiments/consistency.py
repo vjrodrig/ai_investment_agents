@@ -9,8 +9,8 @@ Corre el pipeline varias veces y mide cuántas acciones comparten, en promedio, 
 carteras cualesquiera (la misma métrica de la presentación: "acciones en común, de N").
 
 Uso:
-    python experimentos/consistencia.py            # 3 corridas
-    python experimentos/consistencia.py --runs 5   # 5 corridas
+    python experiments/consistency.py            # 3 corridas
+    python experiments/consistency.py --runs 5   # 5 corridas
 
 Ojo: cada corrida hace llamadas reales al LLM (necesitas tu API key en .env) y cuesta
 unos minutos. Empieza con pocas corridas.

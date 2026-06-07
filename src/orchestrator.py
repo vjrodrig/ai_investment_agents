@@ -39,18 +39,34 @@ AGENT_COLORS = {
 TOOL_RESULT_MAX = 800
 
 
-def _run_agent(name: str, task: str, transcript: list, verbose: bool) -> str:
+def _run_agent(
+    name: str, task: str, transcript: list, verbose: bool, temperatures=None
+) -> str:
     """
     Corre un agente, registra su turno en `transcript` y (si verbose) lo muestra.
+
+    `temperatures` (opcional) sobreescribe la temperatura del agente sin tocar su
+    archivo: puede ser un float (se aplica a todos) o un dict {nombre_agente: temp}.
+    Lo usa el experimento de temperatura.
 
     Devuelve la respuesta final (texto) del agente.
     """
     agent = Agent(name)
+    if isinstance(temperatures, dict) and name in temperatures:
+        agent.temperature = temperatures[name]
+    elif isinstance(temperatures, (int, float)):
+        agent.temperature = temperatures
+
     color = AGENT_COLORS.get(name, "white")
     turn = {"name": name, "role": agent.role, "model": agent.model, "tools": []}
 
     if verbose:
-        console.print(Rule(f"[bold {color}]{agent.role}[/]  ({agent.model})", style=color))
+        console.print(
+            Rule(
+                f"[bold {color}]{agent.role}[/]  ({agent.model}, temp={agent.temperature})",
+                style=color,
+            )
+        )
 
     def on_tool(tool_name: str, arguments: dict, result: str):
         # Se registra todo en el transcript; en pantalla mostramos solo nombre + args.
@@ -67,9 +83,13 @@ def _run_agent(name: str, task: str, transcript: list, verbose: bool) -> str:
     return output
 
 
-def run_pipeline(verbose: bool = True) -> dict:
+def run_pipeline(verbose: bool = True, temperatures=None) -> dict:
     """
     Ejecuta el equipo completo.
+
+    `temperatures` (opcional) sobreescribe las temperaturas de los agentes sin tocar
+    sus archivos: un float para todos, o un dict {nombre_agente: temp}. Útil para el
+    experimento que busca la mejor combinación de temperaturas.
 
     Devuelve un dict con:
         report          -> texto final del Portfolio Manager
@@ -103,6 +123,7 @@ def run_pipeline(verbose: bool = True) -> dict:
         f"Usa una ventana de {period}. Justifica brevemente cada elección.",
         transcript,
         verbose,
+        temperatures,
     )
 
     # 2 · QUANT -------------------------------------------------------------
@@ -114,6 +135,7 @@ def run_pipeline(verbose: bool = True) -> dict:
         f"cuáles tienen el mejor perfil riesgo/retorno.",
         transcript,
         verbose,
+        temperatures,
     )
 
     # 3 · RISK --------------------------------------------------------------
@@ -125,6 +147,7 @@ def run_pipeline(verbose: bool = True) -> dict:
         f"debería superar un peso de {max_weight:.0%}). Entrega una lista depurada.",
         transcript,
         verbose,
+        temperatures,
     )
 
     # 4 · PORTFOLIO MANAGER (síntesis final) --------------------------------
@@ -140,6 +163,7 @@ def run_pipeline(verbose: bool = True) -> dict:
         f"Entrega el resultado como una tabla en markdown seguida de un resumen.",
         transcript,
         verbose,
+        temperatures,
     )
 
     tickers = extract_final_tickers(pm, config)

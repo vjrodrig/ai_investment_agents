@@ -64,13 +64,21 @@ resultado.
 cartera distinta cada vez. Con **proceso**, eso cambia. Pruébalo:
 
 ```bash
-python experimentos/consistencia.py --runs 3
+python experiments/consistency.py --runs 3
 ```
 
 Corre el sistema varias veces y mide cuántas acciones comparten las carteras (la misma
 métrica de la presentación: *"acciones en común, de 10"*). Verás un **núcleo estable**
-de acciones que se repite. Si quieres acercarte aún más a la repetición exacta, baja la
-`temperature` de los agentes hacia `0` (Recap Clase 1: temperatura = aleatoriedad).
+de acciones que se repite.
+
+**3. ¿Cuál es la mejor temperatura?** Bajar todo a `0` repite más, pero vuelve al
+sistema un robot que copia el ranking de Sharpe. Este experimento prueba varias
+combinaciones de temperatura por agente y recomienda la de **mayor overlap sin
+sacrificar creatividad**:
+
+```bash
+python experiments/temperature_search.py --runs 3
+```
 
 ---
 
@@ -144,8 +152,9 @@ ai_investment_agents/
 │   ├── agent.py           ·  lee un agente y corre su loop de tools
 │   ├── tools.py           ·  las tools (Yahoo Finance, cálculo de métricas)
 │   └── orchestrator.py    ·  coordina al equipo, imprime y registra cada turno
-├── experimentos/
-│   └── consistencia.py    ← corre el sistema N veces y mide si la cartera varía
+├── experiments/
+│   ├── consistency.py        ← corre el sistema N veces y mide si la cartera varía
+│   └── temperature_search.py ← busca la mejor temperatura (overlap vs creatividad)
 ├── docs/
 │   ├── COMO_FUNCIONA.md
 │   └── COMO_EDITAR_AGENTES.md
