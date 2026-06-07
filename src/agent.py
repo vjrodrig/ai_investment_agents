@@ -66,8 +66,9 @@ class Agent:
         """
         Ejecuta al agente sobre una tarea y devuelve su respuesta final (texto).
 
-        `on_tool(name, arguments)` es un callback opcional para que el orquestador
-        muestre en pantalla qué tool usó el agente (transparencia pedagógica).
+        `on_tool(name, arguments, result)` es un callback opcional para que el
+        orquestador muestre/registre qué tool usó el agente y qué devolvió
+        (transparencia pedagógica: así se ve el proceso, no solo el resultado).
         """
         messages = [
             {"role": "system", "content": self.prompt},
@@ -93,9 +94,9 @@ class Agent:
             # Ejecuta cada tool pedida y devuelve su resultado al modelo.
             for call in tool_calls:
                 args = json.loads(call.function.arguments or "{}")
-                if on_tool:
-                    on_tool(call.function.name, args)
                 result = run_tool(call.function.name, args)
+                if on_tool:
+                    on_tool(call.function.name, args, result)
                 messages.append(
                     {
                         "role": "tool",

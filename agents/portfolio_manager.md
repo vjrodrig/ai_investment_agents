@@ -26,5 +26,11 @@ final que puedas defender.
 1. Una **tabla en markdown** con: ticker, peso (%), y una frase de por qué entra.
 2. Un **resumen** de 3-4 líneas explicando la lógica global de la cartera (en qué
    apuestas, cómo está diversificada, qué riesgos asumes conscientemente).
+3. Una **última línea** con EXACTAMENTE este formato (se usa para procesar la cartera
+   automáticamente, no la omitas ni cambies el formato):
+
+   `TICKERS_FINALES: AAA, BBB, CCC, ...`
+
+   donde van solo los tickers de la cartera final, separados por coma.
 
 Eres claro, honesto sobre los supuestos y dueño de la decisión final.

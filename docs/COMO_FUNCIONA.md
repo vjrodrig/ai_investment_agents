@@ -67,5 +67,34 @@ Clase 1), pero ahora **entiendes y controlas** de dónde viene cada decisión.
 4. Verás en pantalla qué tool usó cada agente y su conclusión.
 5. El Portfolio Manager entrega la cartera final, que se guarda en `output/`.
 
+## El log del proceso (transcript)
+
+Además de mostrarse en pantalla, cada corrida guarda en `output/proceso_<fecha>.md`
+**todo lo que hizo el equipo**: por cada agente, las tools que llamó, los datos que
+esas tools devolvieron y su conclusión completa. Es la "caja transparente" del sistema:
+puedes reconstruir exactamente por qué la cartera quedó como quedó. Esto contrasta con
+un chat suelto, donde solo ves la respuesta final y no el razonamiento ni los datos.
+
+## ¿Por qué la cartera casi no varía al repetir?
+
+Los LLMs tienen *temperatura* (Recap Clase 1): algo de aleatoriedad. Entonces, ¿por qué
+con este sistema la cartera se repite tanto entre corridas? Porque el resultado no
+depende de un capricho del modelo, sino de **criterios explícitos aplicados a datos
+reales**: "mayor Sharpe", "descarta volatilidad extrema", "ninguna acción sobre 20%".
+Cuando el criterio está pinneado y los datos son los mismos, la respuesta converge.
+
+Puedes medirlo tú mismo:
+
+```bash
+python experimentos/consistencia.py --runs 3
+```
+
+Corre el sistema varias veces y reporta cuántas acciones comparten las carteras (de N),
+el **núcleo estable** que se repite siempre, y lo compara con las cifras de la Clase 1
+(prompt suelto: 3.1/10; mismo modelo: 4.3/10). Baja la temperatura de los agentes hacia
+`0` y verás la convergencia acercarse aún más a la repetición exacta.
+
+---
+
 ¿Quieres cambiar el comportamiento? No toques `src/`. Edita los **agentes** y el
 **config**. Eso se explica en [COMO_EDITAR_AGENTES.md](COMO_EDITAR_AGENTES.md).
