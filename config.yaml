@@ -1,0 +1,61 @@
+# ═══════════════════════════════════════════════════════════════════
+# CONFIGURACIÓN GLOBAL DEL SISTEMA DE AGENTES
+#
+# Este archivo controla el comportamiento "por defecto". Cada agente
+# (en la carpeta agents/) puede sobreescribir el modelo y la temperatura.
+# ═══════════════════════════════════════════════════════════════════
+
+llm:
+  # Modelo por defecto, en formato  proveedor/modelo .
+  # Cambia esta línea para usar otro proveedor (necesitas su key en .env):
+  #   Claude   ->  anthropic/claude-sonnet-4-6
+  #   OpenAI   ->  openai/gpt-4o
+  #   Gemini   ->  gemini/gemini-2.0-flash
+  model: "anthropic/claude-sonnet-4-6"
+
+  # Temperatura por defecto (0 = predecible, 1 = creativo). Recap Clase 1.
+  temperature: 0.3
+
+  # Máximo de tokens por respuesta de un agente.
+  max_tokens: 4096
+
+# ───────────────────────────────────────────────────────────────────
+# UNIVERSO DE INVERSIÓN
+# Estas son las acciones candidatas (el "CSV de Yahoo", pero en vivo).
+# El agente Research parte de aquí para filtrar. Edita libremente.
+# ───────────────────────────────────────────────────────────────────
+universe:
+  tickers:
+    - AAPL   # Apple
+    - MSFT   # Microsoft
+    - NVDA   # NVIDIA
+    - GOOGL  # Alphabet
+    - AMZN   # Amazon
+    - META   # Meta
+    - JPM    # JPMorgan
+    - V      # Visa
+    - MA     # Mastercard
+    - LLY    # Eli Lilly
+    - JNJ    # Johnson & Johnson
+    - UNH    # UnitedHealth
+    - XOM    # Exxon Mobil
+    - CVX    # Chevron
+    - HD     # Home Depot
+    - PG     # Procter & Gamble
+    - KO     # Coca-Cola
+    - PEP    # PepsiCo
+    - MRK    # Merck
+    - ABT    # Abbott
+    - CRM    # Salesforce
+    - AMD    # AMD
+    - NFLX   # Netflix
+    - CAT    # Caterpillar
+    - GE     # GE Aerospace
+
+# ───────────────────────────────────────────────────────────────────
+# PARÁMETROS DE LA CARTERA
+# ───────────────────────────────────────────────────────────────────
+portfolio:
+  size: 10              # número de acciones en la cartera final
+  lookback_period: "1y" # ventana histórica para métricas (yfinance: 1mo,3mo,6mo,1y,2y,5y)
+  max_weight: 0.20      # peso máximo por acción (límite de concentración del agente Risk)

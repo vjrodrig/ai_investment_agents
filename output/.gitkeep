@@ -1,0 +1,3 @@
+# Los reportes de cartera generados se guardan en esta carpeta.
+# El contenido está ignorado por git (ver .gitignore); este archivo solo
+# asegura que la carpeta exista al clonar el repo.

@@ -1,0 +1,16 @@
+# Capa LLM-agnóstica: una sola interfaz para Claude / OpenAI / Gemini
+litellm>=1.51.0
+
+# Datos de mercado en vivo (Yahoo Finance)
+yfinance>=0.2.40
+
+# Cálculo numérico
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Configuración y secretos
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# Salida bonita en la terminal (paneles por agente)
+rich>=13.0.0
